@@ -10,7 +10,7 @@
         Foreground="#FFCCCCCC">
 
     <Window.Resources>
-        <!-- Simple Dark Theme Styles test -->
+        <!-- Simple Dark Theme Styles -->
         <Style TargetType="TabControl">
             <Setter Property="Background" Value="#FF3F3F46"/>
             <Setter Property="BorderBrush" Value="#FF555555"/>
@@ -111,24 +111,26 @@
                         <!-- Extra space -->
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <!-- Column for Label -->
                         <ColumnDefinition Width="*"/>
-                        <!-- Column for TextBox -->
                     </Grid.ColumnDefinitions>
 
                     <!-- Row 0: Key Name Input -->
-                    <Label Grid.Row="0" Grid.Column="0" Content="Key name:" Margin="0,0,10,0"/>
-                    <TextBox Grid.Row="0" Grid.Column="1" x:Name="KeyNameTextBox" VerticalAlignment="Center" Margin="0,0,0,10"/>
+                    <Viewbox Stretch="Uniform">
+                        <GroupBox Header="Name of the key" Margin="10" FontSize="16">
+                            <TextBox Grid.Row="0" Grid.Column="1" x:Name="KeyNameTextBox" VerticalAlignment="Center" Margin="10" Width="650"/>
+                        </GroupBox>
+                    </Viewbox>
 
                     <!-- Row 1: Buttons -->
-                    <StackPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
+                    <Viewbox Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
+                        <StackPanel
                                 Orientation="Horizontal"
                                 HorizontalAlignment="Center"
                                 Margin="0,10,0,0">
-                        <Button Content="Generate AES key" x:Name="GenerateAesButton"/>
-                        <Button Content="Generate RSA key" x:Name="GenerateRsaButton"/>
-                    </StackPanel>
+                            <Button Content="Generate AES key" x:Name="GenerateAesButton" Click="GenerateAesButton_Click"/>
+                            <Button Content="Generate RSA key" x:Name="GenerateRsaButton" Click="GenerateRsaButton_Click"/>
+                        </StackPanel>
+                    </Viewbox>
                 </Grid>
             </TabItem>
 
@@ -144,6 +146,10 @@
             <TabItem Header="RSA">
                 <!-- Empty Grid as requested -->
                 <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="47*"/>
+                        <ColumnDefinition Width="527*"/>
+                    </Grid.ColumnDefinitions>
                     <!-- Content for RSA tab goes here -->
                 </Grid>
             </TabItem>
