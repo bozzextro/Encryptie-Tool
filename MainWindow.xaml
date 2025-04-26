@@ -10,7 +10,7 @@
         Foreground="#FFCCCCCC">
 
     <Window.Resources>
-        <!-- Simple Dark Theme Styles -->
+        <!-- Simple Dark Theme Styles test -->
         <Style TargetType="TabControl">
             <Setter Property="Background" Value="#FF3F3F46"/>
             <Setter Property="BorderBrush" Value="#FF555555"/>
