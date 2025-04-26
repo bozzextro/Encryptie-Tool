@@ -20,6 +20,9 @@ using System.ComponentModel;
 
 namespace EncryptionTool
 {
+    /// <summary>
+    /// Class that represents an AES key item with its name and file paths
+    /// </summary>
     public class AesKeyItem
     {
         public string Name { get; set; }
@@ -32,6 +35,9 @@ namespace EncryptionTool
         }
     }
     
+    /// <summary>
+    /// Main window class that handles the encryption and decryption operations
+    /// </summary>
     public partial class MainWindow : Window
     {
         private string _defaultKeyFolderPath;
@@ -44,11 +50,15 @@ namespace EncryptionTool
 private static readonly string[] AllowedImageExtensions = new[] { ".png", ".jpg", ".jpeg", ".bmp" };
 
 
+        /// <summary>
+        /// Constructor for the MainWindow class
+        /// Initializes UI components, sets up event handlers, and configures default folders
+        /// </summary>
         public MainWindow()
         {
             InitializeComponent();
 
-
+            // Register event handler for extension ComboBox changes
             if (DecryptedExtensionComboBox != null)
                 DecryptedExtensionComboBox.SelectionChanged += DecryptedExtensionComboBox_SelectionChanged;
 
@@ -87,6 +97,10 @@ private static readonly string[] AllowedImageExtensions = new[] { ".png", ".jpg"
             LoadAesKeys();
         }
 
+        /// <summary>
+        /// Event handler for the Generate AES Button
+        /// Creates a new AES key and IV, saves them to files, and updates the UI
+        /// </summary>
         private void GenerateAesButton_Click(object sender, RoutedEventArgs e)
         {
             if (string.IsNullOrWhiteSpace(KeyNameTextBox.Text))
@@ -118,6 +132,10 @@ private static readonly string[] AllowedImageExtensions = new[] { ".png", ".jpg"
             }
         }
 
+        /// <summary>
+        /// Event handler for the Generate RSA Button
+        /// Creates a new RSA key pair (public and private), saves them to files, and updates the UI
+        /// </summary>
         private void GenerateRsaButton_Click(object sender, RoutedEventArgs e)
         {
             if (string.IsNullOrWhiteSpace(KeyNameTextBox.Text))
@@ -147,6 +165,10 @@ private static readonly string[] AllowedImageExtensions = new[] { ".png", ".jpg"
         }
 
 
+        /// <summary>
+        /// Event handler for the Set Default Key Folder menu item
+        /// Opens a folder browser dialog and sets the selected folder as the default key storage location
+        /// </summary>
         private void SetDefaultKeyFolder_Click(object sender, RoutedEventArgs e)
         {
             var dialog = new System.Windows.Forms.FolderBrowserDialog
@@ -175,6 +197,10 @@ private static readonly string[] AllowedImageExtensions = new[] { ".png", ".jpg"
                 MessageBox.Show($"Default key folder set to:{Environment.NewLine}{_defaultKeyFolderPath}", "Folder Set", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
+        /// <summary>
+        /// Loads all available AES keys from the keys folder
+        /// Populates the AesKeyComboBox with the found keys
+        /// </summary>
         private void LoadAesKeys()
         {
             _aesKeys.Clear();
@@ -209,11 +235,19 @@ private static readonly string[] AllowedImageExtensions = new[] { ".png", ".jpg"
             }
         }
         
+        /// <summary>
+        /// Event handler for the Refresh Keys button
+        /// Reloads all AES keys from the keys folder
+        /// </summary>
         private void RefreshKeysButton_Click(object sender, RoutedEventArgs e)
         {
             LoadAesKeys();
         }
         
+        /// <summary>
+        /// Event handler for the Set Ciphertext Folder button
+        /// Opens a folder browser dialog and sets the selected folder as the ciphertext storage location
+        /// </summary>
         private void SetCiphertextFolderButton_Click(object sender, RoutedEventArgs e)
         {
             var dialog = new System.Windows.Forms.FolderBrowserDialog
@@ -242,6 +276,10 @@ private static readonly string[] AllowedImageExtensions = new[] { ".png", ".jpg"
             }
         }
         
+        /// <summary>
+        /// Event handler for the Set Plaintext Folder button
+        /// Opens a folder browser dialog and sets the selected folder as the plaintext storage location
+        /// </summary>
         private void SetPlaintextFolderButton_Click(object sender, RoutedEventArgs e)
         {
             var dialog = new System.Windows.Forms.FolderBrowserDialog
@@ -270,6 +308,11 @@ private static readonly string[] AllowedImageExtensions = new[] { ".png", ".jpg"
             }
         }
         
+        /// <summary>
+        /// Event handler for the Select Ciphertext button
+        /// Opens a file dialog to select an encrypted file for decryption
+        /// Updates the UI with the selected file and suggested output filename
+        /// </summary>
         private void SelectCiphertextButton_Click(object sender, RoutedEventArgs e)
         {
             var dialog = new OpenFileDialog
@@ -287,6 +330,10 @@ private static readonly string[] AllowedImageExtensions = new[] { ".png", ".jpg"
             }
         }
 
+        /// <summary>
+        /// Gets the currently selected file extension from the DecryptedExtensionComboBox
+        /// </summary>
+        /// <returns>The selected extension string (e.g., ".png") or the default extension if none selected</returns>
         private string GetSelectedDecryptedExtension()
         {
             if (DecryptedExtensionComboBox != null && DecryptedExtensionComboBox.SelectedItem is ComboBoxItem selectedItem)
@@ -296,6 +343,10 @@ private static readonly string[] AllowedImageExtensions = new[] { ".png", ".jpg"
             return DefaultImageExtension;
         }
 
+        /// <summary>
+        /// Event handler for when the user changes the output file extension in the ComboBox
+        /// Updates the decrypted file name with the new extension
+        /// </summary>
         private void DecryptedExtensionComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
@@ -307,6 +358,10 @@ private static readonly string[] AllowedImageExtensions = new[] { ".png", ".jpg"
             }
         }
 
+        /// <summary>
+        /// Event handler for the Select Image to Encrypt button
+        /// Opens a file dialog to select an image file for encryption
+        /// </summary>
         private void SelectImageToEncryptButton_Click(object sender, RoutedEventArgs e)
         {
             var dialog = new OpenFileDialog
@@ -321,6 +376,13 @@ private static readonly string[] AllowedImageExtensions = new[] { ".png", ".jpg"
             }
         }
         
+        /// <summary>
+        /// Encrypts data using AES algorithm with the provided key and initialization vector
+        /// </summary>
+        /// <param name="data">The raw data to encrypt</param>
+        /// <param name="key">The AES key</param>
+        /// <param name="iv">The initialization vector</param>
+        /// <returns>Encrypted byte array</returns>
         private byte[] EncryptData(byte[] data, byte[] key, byte[] iv)
         {
             using (Aes aes = Aes.Create())
@@ -340,6 +402,13 @@ private static readonly string[] AllowedImageExtensions = new[] { ".png", ".jpg"
             }
         }
         
+        /// <summary>
+        /// Decrypts data using AES algorithm with the provided key and initialization vector
+        /// </summary>
+        /// <param name="data">The encrypted data</param>
+        /// <param name="key">The AES key</param>
+        /// <param name="iv">The initialization vector</param>
+        /// <returns>Decrypted byte array</returns>
         private byte[] DecryptData(byte[] data, byte[] key, byte[] iv)
         {
             using (Aes aes = Aes.Create())
@@ -358,6 +427,11 @@ private static readonly string[] AllowedImageExtensions = new[] { ".png", ".jpg"
                 }
             }
         }
+        /// <summary>
+        /// Event handler for the Encrypt button
+        /// Performs validation, reads the selected image file, encrypts it using the selected AES key,
+        /// and saves the encrypted data to the ciphertext folder
+        /// </summary>
         private void EncryptButton_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -382,10 +456,13 @@ private static readonly string[] AllowedImageExtensions = new[] { ".png", ".jpg"
                 byte[] key = Convert.FromBase64String(File.ReadAllText(selectedKey.KeyPath));
                 byte[] iv = Convert.FromBase64String(File.ReadAllText(selectedKey.IvPath));
 
+                // Read the raw image data as bytes
                 byte[] imageData = File.ReadAllBytes(SelectedImagePathTextBox.Text);
 
+                // Perform AES encryption on the image data
                 byte[] encryptedData = EncryptData(imageData, key, iv);
 
+                // Create the output file path and save the encrypted data
                 string outputPath = Path.Combine(_ciphertextFolderPath, EncryptedFileNameTextBox.Text + ".enc");
                 File.WriteAllBytes(outputPath, encryptedData);
                 StatusTextBox.AppendText($"Encrypted file saved to: {outputPath}{Environment.NewLine}");
@@ -398,6 +475,11 @@ private static readonly string[] AllowedImageExtensions = new[] { ".png", ".jpg"
             }
         }
 
+        /// <summary>
+        /// Event handler for the Decrypt button
+        /// Performs validation, reads the selected encrypted file, decrypts it using the selected AES key,
+        /// and saves the decrypted data to the plaintext folder with the specified extension
+        /// </summary>
         private void DecryptButton_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -422,14 +504,19 @@ private static readonly string[] AllowedImageExtensions = new[] { ".png", ".jpg"
                 byte[] key = Convert.FromBase64String(File.ReadAllText(selectedKey.KeyPath));
                 byte[] iv = Convert.FromBase64String(File.ReadAllText(selectedKey.IvPath));
 
+                // Read the encrypted data from the selected file
                 byte[] encryptedData = File.ReadAllBytes(SelectedCiphertextPathTextBox.Text);
 
+                // Perform AES decryption on the encrypted data
                 byte[] decryptedData = DecryptData(encryptedData, key, iv);
 
+                // Get the selected output extension and create the output file path
                 string extension = GetSelectedDecryptedExtension();
                 string outputPath = Path.Combine(_plaintextFolderPath, DecryptedFileNameTextBox.Text);
+                // Make sure the filename has the correct extension
                 if (!outputPath.EndsWith(extension, StringComparison.OrdinalIgnoreCase))
                     outputPath += extension;
+                // Save the decrypted data as an image file
                 File.WriteAllBytes(outputPath, decryptedData);
                 StatusTextBox.AppendText($"Decrypted file saved to: {outputPath}{Environment.NewLine}");
                 MessageBox.Show("Decryption successful!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
