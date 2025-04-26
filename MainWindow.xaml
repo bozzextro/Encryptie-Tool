@@ -1,16 +1,16 @@
-<Window x:Class="EncryptionTool.MainWindow"
+ <Window x:Class="EncryptionTool.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:EncryptionTool"
         mc:Ignorable="d"
-        Title="Encryption Tool (TEAM 07)" Height="450" Width="600"
+        Title="Encryption Tool (TEAM 07)" Height="600" Width="1200"
         Background="#FF2D2D30"
         Foreground="#FFCCCCCC">
 
     <Window.Resources>
-        <!-- Simple Dark Theme Styles -->
+        
         <Style TargetType="TabControl">
             <Setter Property="Background" Value="#FF3F3F46"/>
             <Setter Property="BorderBrush" Value="#FF555555"/>
@@ -54,7 +54,7 @@
         </Style>
 
         <Style TargetType="Grid">
-            <!-- Ensure Grid inside TabItem content area has dark background -->
+            
             <Setter Property="Background" Value="#FF4F4F56"/>
         </Style>
 
@@ -84,9 +84,9 @@
             <Setter Property="BorderThickness" Value="1"/>
             <Setter Property="Padding" Value="5"/>
             <Setter Property="CaretBrush" Value="#FFCCCCCC"/>
-            <!-- Make cursor visible -->
+            
             <Setter Property="SelectionBrush" Value="#FF007ACC"/>
-            <!-- Standard selection color -->
+            
         </Style>
 
         <Style TargetType="Label">
@@ -102,7 +102,7 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         
-        <!-- Menu Bar -->
+        
         <Menu Grid.Row="0" Background="#FF3F3F46" Foreground="#FFCCCCCC" BorderBrush="#FF555555" BorderThickness="0,0,0,1">
             <MenuItem Header="Settings" Foreground="#FFCCCCCC">
                 <MenuItem Header="Set Default Key Folder" Click="SetDefaultKeyFolder_Click" Foreground="#FF2D2D30" />
@@ -111,29 +111,27 @@
         
         <TabControl Grid.Row="1">
 
-            <!-- Tab 1: Key Generation -->
+            
             <TabItem Header="Key generation">
-                <Grid Margin="10">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <!-- Row for Label and TextBox -->
-                        <RowDefinition Height="Auto"/>
-                        <!-- Row for Buttons -->
-                        <RowDefinition Height="*"/>
-                        <!-- Extra space -->
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
+                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+                    <Grid Margin="10">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
 
-                    <!-- Row 0: Key Name Input -->
+                    
                     <Viewbox Stretch="Uniform">
                         <GroupBox Header="Name of the key" Margin="10" FontSize="16">
                             <TextBox Grid.Row="0" Grid.Column="1" x:Name="KeyNameTextBox" VerticalAlignment="Center" Margin="10" Width="650" />
                         </GroupBox>
                     </Viewbox>
 
-                    <!-- Row 1: Buttons -->
+                    
                     <Viewbox Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
                         <StackPanel
                                 Orientation="Horizontal"
@@ -143,27 +141,136 @@
                             <Button Content="Generate RSA key" x:Name="GenerateRsaButton" Click="GenerateRsaButton_Click"/>
                         </StackPanel>
                     </Viewbox>
-                </Grid>
+                    </Grid>
+                </ScrollViewer>
             </TabItem>
 
-            <!-- Tab 2: AES -->
+            
             <TabItem Header="AES">
-                <!-- Empty Grid as requested -->
-                <Grid>
-                    <!-- Content for AES tab goes here -->
-                </Grid>
+                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+                    <Grid Margin="10">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                    
+                        
+                        <GroupBox Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Header="AES Key Selection" Margin="5">
+                            <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <ComboBox x:Name="AesKeyComboBox" Grid.Column="0" Margin="5" VerticalAlignment="Center" />
+                            <Button x:Name="RefreshKeysButton" Grid.Column="1" Content="Refresh Keys" Margin="5" Click="RefreshKeysButton_Click" />
+                            </Grid>
+                        </GroupBox>
+                    
+                        
+                        <GroupBox Grid.Row="1" Grid.Column="0" Header="Ciphertext Folder" Margin="5">
+                            <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBox x:Name="CiphertextFolderTextBox" Grid.Column="0" Margin="5" IsReadOnly="True" />
+                            <Button x:Name="SetCiphertextFolderButton" Grid.Column="1" Content="Set Folder" Margin="5" Click="SetCiphertextFolderButton_Click" />
+                            </Grid>
+                        </GroupBox>
+                    
+                        <GroupBox Grid.Row="1" Grid.Column="1" Header="Plaintext Folder" Margin="5">
+                            <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBox x:Name="PlaintextFolderTextBox" Grid.Column="0" Margin="5" IsReadOnly="True" />
+                            <Button x:Name="SetPlaintextFolderButton" Grid.Column="1" Content="Set Folder" Margin="5" Click="SetPlaintextFolderButton_Click" />
+                            </Grid>
+                        </GroupBox>
+                    
+                        
+                        <GroupBox Grid.Row="2" Grid.Column="0" Header="Encryption" Margin="5">
+                            <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            
+                            <Button x:Name="SelectImageToEncryptButton" Grid.Row="0" Content="Select Image to Encrypt" Margin="5" Click="SelectImageToEncryptButton_Click" />
+                            <TextBox x:Name="SelectedImagePathTextBox" Grid.Row="1" Margin="5" IsReadOnly="True" />
+                            
+                            <Grid Grid.Row="2">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBox x:Name="EncryptedFileNameTextBox" Grid.Column="0" Margin="5" />
+                                <Button x:Name="EncryptButton" Grid.Column="1" Content="Encrypt" Margin="5" Click="EncryptButton_Click" />
+                            </Grid>
+                            </Grid>
+                        </GroupBox>
+                    
+                        
+                        <GroupBox Grid.Row="2" Grid.Column="1" Header="Decryption" Margin="5">
+                            <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            
+                            <Button x:Name="SelectCiphertextButton" Grid.Row="0" Content="Select Ciphertext to Decrypt" Margin="5" Click="SelectCiphertextButton_Click" />
+                            <TextBox x:Name="SelectedCiphertextPathTextBox" Grid.Row="1" Margin="5" IsReadOnly="True" />
+                            
+                            <Grid Grid.Row="2">
+    <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="100"/>
+        <ColumnDefinition Width="Auto"/>
+    </Grid.ColumnDefinitions>
+    <TextBox x:Name="DecryptedFileNameTextBox" Grid.Column="0" Margin="5" />
+    <ComboBox x:Name="DecryptedExtensionComboBox" Grid.Column="1" Margin="5" Width="90" VerticalAlignment="Center" SelectedIndex="0">
+        <ComboBoxItem Content=".png" />
+        <ComboBoxItem Content=".jpg" />
+        <ComboBoxItem Content=".jpeg" />
+        <ComboBoxItem Content=".bmp" />
+    </ComboBox>
+    <Button x:Name="DecryptButton" Grid.Column="2" Content="Decrypt" Margin="5" Click="DecryptButton_Click" />
+</Grid>
+                            </Grid>
+                        </GroupBox>
+                    
+                        
+                        <GroupBox Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Header="Status" Margin="5">
+                            <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+                            <TextBox x:Name="StatusTextBox" Height="100" TextWrapping="Wrap" IsReadOnly="True" />
+                            </ScrollViewer>
+                        </GroupBox>
+                    </Grid>
+                </ScrollViewer>
             </TabItem>
 
-            <!-- Tab 3: RSA -->
+            
             <TabItem Header="RSA">
-                <!-- Empty Grid as requested -->
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="47*"/>
-                        <ColumnDefinition Width="527*"/>
-                    </Grid.ColumnDefinitions>
-                    <!-- Content for RSA tab goes here -->
-                </Grid>
+                
+                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="5*"/>
+                        </Grid.ColumnDefinitions>
+                        
+                    </Grid>
+                </ScrollViewer>
             </TabItem>
 
         </TabControl>

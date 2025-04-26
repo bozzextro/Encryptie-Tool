@@ -41,5 +41,35 @@ namespace EncryptionTool.Properties
                 this["DefaultKeyFolder"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string CiphertextFolder
+        {
+            get
+            {
+                return ((string)(this["CiphertextFolder"]));
+            }
+            set
+            {
+                this["CiphertextFolder"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string PlaintextFolder
+        {
+            get
+            {
+                return ((string)(this["PlaintextFolder"]));
+            }
+            set
+            {
+                this["PlaintextFolder"] = value;
+            }
+        }
     }
 }
